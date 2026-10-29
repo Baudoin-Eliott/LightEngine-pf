@@ -1,0 +1,146 @@
+{
+    "projects": {
+        "09F135FD-31AB-291C-0589-61750DCD4D5E": {
+            "config-debug": {
+                "additionalDependencies": [
+                    "SDL3-static.lib",
+                    "version.lib",
+                    "imm32.lib",
+                    "cfgmgr32.lib",
+                    "setupapi.lib",
+                    "winmm.lib",
+                    "gdi32.lib",
+                    "user32.lib",
+                    "shell32.lib",
+                    "ole32.lib",
+                    "oleaut32.lib",
+                    "advapi32.lib",
+                    "SDL3_ttf-static.lib",
+                    "usp10.lib",
+                    "rpcrt4.lib"
+                ],
+                "additionalIncludeDirectories": [
+                    "$(SolutionDir)../lib/SDL3/include",
+                    "$(SolutionDir)../lib/SDL3/include/TTF"
+                ],
+                "additionalLibraryDirectories": [
+                    "$(SolutionDir)../lib/SDL3/lib/x64"
+                ],
+                "preprocessorDefinitions": []
+            },
+            "config-release": {
+                "additionalDependencies": [],
+                "additionalIncludeDirectories": [],
+                "additionalLibraryDirectories": [],
+                "preprocessorDefinitions": []
+            },
+            "dependencies": [
+                "621806D6-0FB9-07AA-403D-6CBF7E3A77B7",
+                "2EE22731-4E05-5433-13D8-57CA57013D28"
+                
+            ],
+            "dependents": [],
+            "name": "Sample",
+            "property-lib": false,
+            "property-pch": false,
+            "property-vcpkg": false,
+            "property-window": false
+        },
+        "2DAB1286-68BD-7274-202C-269B53FE7B73": {
+            "config-debug": {
+                "additionalDependencies": [],
+                "additionalIncludeDirectories": [],
+                "additionalLibraryDirectories": [],
+                "preprocessorDefinitions": []
+            },
+            "config-release": {
+                "additionalDependencies": [],
+                "additionalIncludeDirectories": [],
+                "additionalLibraryDirectories": [],
+                "preprocessorDefinitions": []
+            },
+            "dependencies": [],
+            "dependents": [],
+            "name": "pf-core",
+            "property-lib": true,
+            "property-pch": false,
+            "property-vcpkg": false,
+            "property-window": false
+        },
+        "2EE22731-4E05-5433-13D8-57CA57013D28": {
+            "config-debug": {
+                "additionalDependencies": [],
+                "additionalIncludeDirectories": [],
+                "additionalLibraryDirectories": [],
+                "preprocessorDefinitions": []
+            },
+            "config-release": {
+                "additionalDependencies": [],
+                "additionalIncludeDirectories": [],
+                "additionalLibraryDirectories": [],
+                "preprocessorDefinitions": []
+            },
+            "dependencies": ["2DAB1286-68BD-7274-202C-269B53FE7B73"],
+            "dependents": [],
+            "name": "pf-grid",
+            "property-lib": true,
+            "property-pch": false,
+            "property-vcpkg": false,
+            "property-window": false
+        },
+    
+        "621806D6-0FB9-07AA-403D-6CBF7E3A77B7": {
+            "config-debug": {
+                "additionalDependencies": [
+                    "SDL3-static.lib",
+                    "version.lib",
+                    "imm32.lib",
+                    "cfgmgr32.lib",
+                    "setupapi.lib",
+                    "winmm.lib",
+                    "gdi32.lib",
+                    "user32.lib",
+                    "shell32.lib",
+                    "ole32.lib",
+                    "oleaut32.lib",
+                    "advapi32.lib",
+                    "SDL3_ttf-static.lib",
+                    "usp10.lib",
+                    "rpcrt4.lib"
+                ],
+                "additionalIncludeDirectories": [
+                    "$(SolutionDir)../lib/SDL3/include",
+                    "$(SolutionDir)../lib/SDL3/include/TTF"
+                ],
+                "additionalLibraryDirectories": [
+                    "$(SolutionDir)../lib/SDL3/lib/x64"
+                ],
+                "preprocessorDefinitions": []
+            },
+            "config-release": {
+                "additionalDependencies": [],
+                "additionalIncludeDirectories": [],
+                "additionalLibraryDirectories": [],
+                "preprocessorDefinitions": []
+            },
+            "dependencies": [],
+            "dependents": [],
+            "name": "LightEngine",
+            "property-lib": true,
+            "property-pch": false,
+            "property-vcpkg": false,
+            "property-window": false
+        }
+    },
+    "projects_name_to_guid": {
+        "LightEngine": "621806D6-0FB9-07AA-403D-6CBF7E3A77B7",
+        "PathFinding": "4CBA3EED-52C1-02EC-6EA9-392869384050",
+        "Sample": "09F135FD-31AB-291C-0589-61750DCD4D5E",
+        "pf-core": "2DAB1286-68BD-7274-202C-269B53FE7B73",
+        "pf-grid": "2EE22731-4E05-5433-13D8-57CA57013D28"
+    },
+    "solution_guid": "09897670-78A6-6932-7C36-769D08BF3B47",
+    "solution_name": "LightEngine",
+    "startup_project": "",
+    "version": "2.0"
+}

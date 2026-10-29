@@ -1,0 +1,11 @@
+<Project>
+  <Target Name="CopyDebugFont" AfterTargets="Build"
+          Condition="'$(ConfigurationType)' == 'Application'">
+    <ItemGroup>
+      <DebugFontFiles Include="$(MSBuildThisFileDirectory)res\LightEngine\Fonts\Abel-Regular.ttf" />
+      <DebugFontFiles Include="$(MSBuildThisFileDirectory)res\LightEngine\Fonts\OFL.txt" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DebugFontFiles)"
+          DestinationFolder="$(OutDir)res\LightEngine\Fonts" SkipUnchangedFiles="true" />
+  </Target>
+</Project>
