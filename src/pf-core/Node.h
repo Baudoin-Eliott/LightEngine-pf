@@ -1,5 +1,6 @@
 #pragma once
-#include <deque>
+#include <vector>
+#include <limits>
 
 template<typename T>
 struct Node {
@@ -8,6 +9,7 @@ struct Node {
 
     bool visited = false;
     Node* from = nullptr;
+    float dist = std::numeric_limits<float>::infinity();
 
-    std::deque<Node*> neighbors = {};
+    std::vector<Node*> neighbors = {};
 };

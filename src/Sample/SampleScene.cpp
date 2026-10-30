@@ -6,27 +6,38 @@
 
 #include <iostream>
 
-bool isValid(int _index, int _gridSize) {
-    return _index >= 0 && _index < _gridSize * _gridSize;
+inline Color heightToColor(float _height) {
+    if (_height < -0.5f)  return Color(10, 30, 100);   // abysses
+    if (_height < -0.3f)  return Color(20, 60, 160);   // eau profonde
+    if (_height < -0.15f) return Color(40, 110, 200);   // eau moyenne
+    if (_height < -0.05f) return Color(80, 170, 220);   // eau peu profonde
+    if (_height < 0.0f)  return Color(230, 215, 150);   // sable humide
+    if (_height < 0.05f) return Color(240, 225, 130);   // sable
+    if (_height < 0.1f)  return Color(170, 210, 100);   // prairie
+    if (_height < 0.2f)  return Color(100, 180, 70);    // herbe
+    if (_height < 0.3f)  return Color(50, 140, 50);    // forêt claire
+    if (_height < 0.4f)  return Color(30, 100, 40);    // forêt dense
+    if (_height < 0.5f)  return Color(120, 90, 60);    // collines
+    if (_height < 0.6f)  return Color(130, 130, 130);   // roche
+    if (_height < 0.7f)  return Color(180, 180, 180);   // haute roche
+    return Color(250, 250, 255);                         // neige
 }
 
-void SampleScene::DrawGrid(int _gridSize)
-{
-
-    Color color(255, 0, 0);
-    for (size_t i = 0; i < _gridSize; i++) {
-        Vector2f start{ 0.f, i * m_cellHeight };
-        Vector2f end{ (float)(GetWindowWidth()), i * m_cellHeight };
-
-
-        Debug::DrawLine(start, end, color);
-
-        start.x = i * m_cellWidth;
-        start.y = 0.f;
-
-        end.x = i * m_cellWidth;
-        end.y = (float)(GetWindowHeight());
-        Debug::DrawLine(start, end, color);
+void SampleScene::fillWall() {
+    for (size_t i = 0; i < m_grid.size; i++) {
+        for (size_t j = 0; j < m_grid.size; j++) {
+            const Cell* cell = m_grid.map[j + i * m_grid.size].data;
+            if (cell->isWalkable == false) {
+                Debug::DrawRectangle({ j * m_cellWidth + m_cellWidth / 2, i * m_cellHeight + m_cellHeight / 2 }, { m_cellWidth, m_cellHeight }, Color::Red, true);
+            }
+            else {
+                Debug::DrawRectangle(
+                    { j * m_cellWidth + m_cellWidth / 2, i * m_cellHeight + m_cellHeight / 2 },
+                    { m_cellWidth, m_cellHeight },
+                    heightToColor(cell->height),
+                    true);
+            }
+        }
     }
 
 }
@@ -50,40 +61,35 @@ void SampleScene::OnInitialize()
     m_cellWidth = WindowWidth / m_grid.size;
 
     m_player = CreateEntity<DummyEntity>(m_cellHeight / 2, Color::Blue);
-
-    for (size_t i = 0; i < m_grid.size; i++) {
-        for (size_t j = 0; j < m_grid.size; j++) {
-            if (m_grid.map[j  + i * m_grid.size].data->isWalkable == true) continue;
-
-            DummyEntity* e = CreateEntity<DummyEntity>(m_cellHeight / 2, Color::Red);
-            e->SetPosition({ j * m_cellWidth, i * m_cellHeight }, 0.f, 0.f);
-            m_obstacles.push_back(e);
-        }
-    }
-
-
+   
 }
 
 void SampleScene::OnUpdate()
 {
    
     InputManager* input = InputManager::Get();
-
+    fillWall();
     Vector2f mousePos = input->GetMousePosition();
 
-    DrawGrid(m_grid.size);
-
-
-    if (input->IsMouseUp(SDL_BUTTON_LEFT)) {
+    if (input->IsMouseHeld(SDL_BUTTON_LEFT)) {
 
         int index = getGridIndex(mousePos);
         std::cout << index << std::endl;
-        if (isValid(index, m_grid.size)) {
+
+
+        auto valide = [](int _index, int _gridSize) {return _index >= 0 && _index < _gridSize * _gridSize;};
+
+        if (valide(index, m_grid.size)) {
             int playerPos = getGridIndex(m_player->GetPosition());
 
-            std::cout << playerPos << std::endl;
             m_grid.ResetGrid();
-            Node<Cell>* end = pf::getPath(&m_grid.map[playerPos], &m_grid.map[index]);
+
+            auto heightComp = [](const Node<Cell>* _a, const Node<Cell>* _b)
+                {
+                    return std::fabs(_a->data->height - _b->data->height) * 10000 + (_a->data->col != _b->data->col && _a->data->row != _b->data->row) ? sqrt(2) : 1.f;
+                };
+
+            Node<Cell>* end = pf::GetPathV2(&m_grid.map[playerPos], &m_grid.map[index], heightComp);
 
             if (end->from != nullptr) {
 
@@ -100,17 +106,21 @@ void SampleScene::OnUpdate()
         }
     }
 
+    if (input->IsKeyUp(SDLK_SPACE)) {
+        m_player->SetPosition(m_positions.back());
+        m_positions.clear();
+    }
 
     if (m_positions.empty() == false) {
 
-        m_player->GoTo({ m_positions[0].x, m_positions[0].y}, 1000.f);
+        m_player->GoTo({ m_positions[0].x, m_positions[0].y}, 100.f);
         float dist = Vector2f::DistanceSqr(m_player->GetPosition(), { m_positions[0].x, m_positions[0].y });
-        if (dist < 0.1f) {
+        if (dist < 0.001f) {
             m_positions.pop_front();
         }
 
         for (Vector2f p : m_positions) {
-            Debug::DrawCircle(p, m_cellWidth / 5, Color::Yellow, true);
+            Debug::DrawCircle(p, m_cellWidth / 5, Color::Red, true);
         }
     }
 

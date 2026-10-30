@@ -12,16 +12,17 @@ class DummyEntity;
 class SampleScene : public Scene
 {
 
-    Grid m_grid{ 10, 3 };
+    Grid m_grid{ 180 };
     DummyEntity* m_player;
-    std::vector<DummyEntity*> m_obstacles;
     std::deque<Vector2f> m_positions;
 
     float m_cellHeight;
     float m_cellWidth;
+
 private:
-    void DrawGrid(int _gridSize);
     int getGridIndex(const Vector2f& _mousePos);
+    void fillWall();
+
 public:
     void OnInitialize() override;
     void OnUpdate() override;

@@ -150,8 +150,6 @@ void Entity::Update()
     if (mTarget.isSet)
     {
         Vector2f currentPos = GetPosition();
-        Debug::DrawLine(currentPos, mTarget.position, Color::Cyan);
-        Debug::DrawCircle(mTarget.position, 5.f, Color::Magenta, true);
 
         mTarget.distance -= distance;
 

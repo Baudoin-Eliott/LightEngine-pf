@@ -9,8 +9,10 @@ struct Grid {
     int size;
 
     Grid(int _size, int _wallRatio);
+    Grid(int _size);
 
     void ResetGrid();
 private:
+    void addNeighBors();
     bool isWalkable(int _index);
 };
